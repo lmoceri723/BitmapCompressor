@@ -23,7 +23,7 @@
  *  @author Robert Sedgewick
  *  @author Kevin Wayne
  *  @author Zach Blick
- *  @author YOUR NAME HERE
+ *  @author Landon Moceri
  */
 public class BitmapCompressor {
 
@@ -32,8 +32,18 @@ public class BitmapCompressor {
      * and writes the results to standard output.
      */
     public static void compress() {
+        String input = BinaryStdIn.readString();
+        int length = input.length();
+        int repeatCount = 0;
+        char lastChar = input.charAt(0);
 
-        // TODO: complete compress()
+        for (int i = 0; i < input.length(); i++) {
+            if (input.charAt(i) != lastChar && repeatCount < 128) {
+                repeatCount++;
+            } else {
+                
+            }
+        }
 
         BinaryStdOut.close();
     }
