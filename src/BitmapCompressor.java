@@ -27,24 +27,52 @@
  */
 public class BitmapCompressor {
 
+    static int MAX_COUNT = 255;
+    static int BYTE_ALIGNMENT_SIZE = 8;
     /**
      * Reads a sequence of bits from standard input, compresses them,
      * and writes the results to standard output.
      */
     public static void compress() {
-        String input = BinaryStdIn.readString();
-        int length = input.length();
-        int repeatCount = 0;
-        char lastChar = input.charAt(0);
+        // Start with the last bit being false
+        boolean lastBit = false;
+        int count = 0;
 
-        for (int i = 0; i < input.length(); i++) {
-            if (input.charAt(i) != lastChar && repeatCount < 128) {
-                repeatCount++;
-            } else {
-                
+        // While there are still bits to read
+        while (!BinaryStdIn.isEmpty()) {
+            // Read the next bit
+            boolean bit = BinaryStdIn.readBoolean();
+            // If the bit is different from the last bit or the count exceeds 255
+            if (bit != lastBit || count == MAX_COUNT) {
+                // Continue writing 255 bits until the count is less than 255
+                if (count > MAX_COUNT) {
+                    // Write 255 bits
+                    BinaryStdOut.write(MAX_COUNT, BYTE_ALIGNMENT_SIZE);
+                    // Write 0 bits to the next byte to indicate continuation
+                    BinaryStdOut.write(0, BYTE_ALIGNMENT_SIZE);
+                    // Decrement the count by 255
+                    count -= MAX_COUNT;
+                }
+                // Write the count of bits
+                BinaryStdOut.write(count, BYTE_ALIGNMENT_SIZE);
+                // Reset the count
+                count = 0;
+                // The last bit is now the current bit
+                lastBit = bit;
             }
+            // Increment the count
+            count++;
         }
 
+        // Handle any remaining counted bits using the same logic as before
+        if (count > 0) {
+            while (count > MAX_COUNT) {
+                BinaryStdOut.write(MAX_COUNT, BYTE_ALIGNMENT_SIZE);
+                BinaryStdOut.write(0, BYTE_ALIGNMENT_SIZE); // Write a 0 count to indicate continuation
+                count -= MAX_COUNT;
+            }
+            BinaryStdOut.write(count, BYTE_ALIGNMENT_SIZE);
+        }
         BinaryStdOut.close();
     }
 
@@ -53,9 +81,28 @@ public class BitmapCompressor {
      * and writes the results to standard output.
      */
     public static void expand() {
+        // Start again with the last bit being false
+        boolean bit = false;
+        // While there are still bits to read
+        while (!BinaryStdIn.isEmpty()) {
+            // Read the next count of bits
+            int count = BinaryStdIn.readInt(8);
+            // If the count is 255, write 255 of the current bit and continue
+            while (count == 255) {
+                for (int i = 0; i < 255; i++) {
+                    BinaryStdOut.write(bit);
+                }
+                // Read the next count of bits
+                count = BinaryStdIn.readInt(8);
+            }
 
-        // TODO: complete expand()
-
+            // Write the count of bits
+            for (int i = 0; i < count; i++) {
+                BinaryStdOut.write(bit);
+            }
+            // Flip the bit
+            bit = !bit;
+        }
         BinaryStdOut.close();
     }
 

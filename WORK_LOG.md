@@ -1,9 +1,12 @@
 Name: YOUR NAME HERE
 
-| Date   |   Time    |                                                                                                                                                                                                                  Update |
-|:-------|:---------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
-| Nov 18 | 1:10-1:40 | I discussed the problem in class and came up with a solution of using bytes to store counts of each sequence and using the highest bit to represent a 0 or a 1 that the sequence comprises. I started writing the code. |
-|        |           |                                                                                                                                                                                                                         |
+| Date   |     Time      |                                                                                                                                                                                                                                                                              Update |
+|:-------|:-------------:|------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Nov 18 |  1:10-1:40pm  |                                                             I discussed the problem in class and came up with a solution of using bytes to store counts of each sequence and using the highest bit to represent a 0 or a 1 that the sequence comprises. I started writing the code. |
+| Nov 20 | 10:50-11:20am |                                                                              I continued writing my code and solved a few bugs. I finished compress, using the stragegy we discussed of encoding bit sequences in bytes. I then moved onto. I can't get my compression to work yet. |
+| Nov 20 | 11:20-11:50am |                                                                                                     I continued writing my code and started to debug a problem where the data was getting corrupted. I was pulled out of class before I solved the issue and wasn't able to commit. |
+| Dec 2  | 10:30-11:00am | I read Sedgewick's explanation of run length encoding and mentally planned out how I was going to change my algorithms to match it. This involves taking advantage of the fact that sequences alternate between 1s or 0s, so I can use this information to gain an extra count bit. |
+| Dec 3  | 11:20-11:50am |                                                               I started writing the code for my compression and decompression algorithms, and got them to fully pass all tests. I used the byte alligned, alternating count strategy described by Sedgewick. I also wrote comments. |
 
 
 To add a new row to the table, click into a cell and then hit shift-enter.
